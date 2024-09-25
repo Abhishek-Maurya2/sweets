@@ -25,7 +25,7 @@ function Navbar() {
       className="flex items-center justify-between px-8 py-2 backdrop-blur-lg border-b-2 border-gray-200 dark:border-white
         "
     >
-      <p onClick={() => navigate("/")} className="text-3xl cursor-pointer">
+      <p onClick={() => navigate("/")} className="text-3xl cursor-pointer p-0">
         TARC
       </p>
       <div className="flex gap-4 items-center">
