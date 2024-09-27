@@ -17,7 +17,7 @@ function Homepage() {
   return (
     <>
       <Navbar />
-      <div className="bg-[#ddd7d787] dark:bg-[#4f4d4d79] p-2 m-3 mx-4 rounded-xl flex items-center justify-center gap-2">
+      <div className="bg-[#ddd7d787] dark:bg-[#4f4d4d79] p-2 m-3 mx-4 rounded-xl flex flex-wrap items-center justify-center gap-2">
         <button
           onClick={handleCategory}
           className="rounded-full h-20 w-20 bg-red-400"
