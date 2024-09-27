@@ -10,6 +10,10 @@ function Homepage() {
   const [res, setRes] = useState([]);
   const handleCategory = (e) => {
     const category = e.target.innerText;
+    if (category === "All") {
+      setRes([]);
+      return;
+    }
     const search = items.filter((item) => item.category === category);
     setRes(search);
   };
@@ -17,7 +21,13 @@ function Homepage() {
   return (
     <>
       <Navbar />
-      <div className="bg-[#ddd7d787] dark:bg-[#4f4d4d79] p-2 m-3 mx-4 rounded-xl flex flex-wrap items-center justify-center gap-2">
+      <div className="bg-[#ddd7d787] dark:bg-[#4f4d4d79] p-2 m-3 mx-4 rounded-xl flex flex-wrap  justify-center gap-2">
+        <button
+          onClick={handleCategory}
+          className="rounded-full h-20 w-20 bg-red-400"
+        >
+          <p>All</p>
+        </button>
         <button
           onClick={handleCategory}
           className="rounded-full h-20 w-20 bg-red-400"
@@ -52,7 +62,7 @@ function Homepage() {
 
       <div className="flex flex-wrap justify-center w-fullpt-10 gap-4 mt-10 p-1">
         {res.length > 0
-          ? res.map((item) => <ItemCard items={item} />)
+          ? res.map((item) => <ItemCard items={item} key={item.id} />)
           : items.map((item, index) => <ItemCard key={index} items={item} />)}
       </div>
     </>
