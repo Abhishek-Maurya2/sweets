@@ -4,8 +4,26 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import useUser from "../store/useUser";
 import { LucideShoppingBag, Search } from "lucide-react";
+import { items } from "@/utils/items";
 
 const SearchModal = () => {
+  const [text, setText] = useState("");
+  const [res, setRes] = useState([]);
+
+  const searchItems = () => {
+    if (text.length > 0) {
+      const search = items.filter((item) =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setRes(search);
+    } else {
+      setRes([]); // Clear results if text is empty
+    }
+  };
+
+  useEffect(() => {
+    searchItems();
+  }, [text]); // Trigger searchItems whenever text changes
   return (
     <div className="h-screen w-full z-50">
       <div className="flex items-center border-b-2 border-gray-200 dark:border-white">
@@ -13,8 +31,10 @@ const SearchModal = () => {
           type="text"
           placeholder="Search Here..."
           className="w-full h-10 p-2 "
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
-        <button className="p-2">
+        <button className="p-2" onClick={searchItems}>
           <Search size={24} />
         </button>
       </div>
@@ -22,18 +42,19 @@ const SearchModal = () => {
       {/* res */}
 
       <div>
-        <div className="flex gap-2 p-2 border m-1 rounded-xl">
-          <img
-            src="https://gratisography.com/wp-content/uploads/2024/03/gratisography-funflower-800x525.jpg"
-            className="w-20 h-20 object-cover rounded-lg"
-          />
-          <div>
-            <p>Product Name</p>
-            <p>price</p>
+        {res.map((item) => (
+          <div className="flex gap-2 p-2 border m-1 rounded-xl">
+            <img
+              src={item.image}
+              className="w-20 h-20 object-cover rounded-lg"
+            />
+            <div>
+              <p>{item.name}</p>
+              <p>{item.price}</p>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-
     </div>
   );
 };
