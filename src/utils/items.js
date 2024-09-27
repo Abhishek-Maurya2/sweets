@@ -103,7 +103,7 @@ export const items = [
     price: 18.0,
     image:
       "https://vismaifood.com/storage/app/uploads/public/be9/386/200/thumb__700_0_0_0_auto.jpg",
-    category: "Chinese Item",
+    category: "Chinese",
     id: 13,
   },
   // daal
