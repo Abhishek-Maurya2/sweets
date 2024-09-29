@@ -53,7 +53,7 @@ function Navbar() {
             <input
               type="text"
               placeholder="Search Here..."
-              className="w-full h-10 p-2 "
+              className="w-full h-10 p-2 dark:bg-black"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
