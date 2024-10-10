@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/services/Navbar";
 import useCart from "@/store/useCart";
 import { Minus, Plus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CartCard = ({ items }) => {
   const [quantity, setQuantity] = useState(1);
@@ -19,9 +20,9 @@ const CartCard = ({ items }) => {
   };
 
   return (
-    <div className="flex gap-6 border rounded-xl p-2 shadow-lg">
+    <div className="flex gap-2 border rounded-xl p-2 shadow-lg w-[90vw] sm:w-[450px]">
       {/* image */}
-      <div className="flex-shrink-0 w-36 h-36 overflow-hidden rounded-lg">
+      <div className="flex-shrink-0 w-28 h-28 overflow-hidden rounded-lg">
         <img
           src={items.image}
           alt={items.name}
@@ -29,16 +30,13 @@ const CartCard = ({ items }) => {
         />
       </div>
 
-      <div className="flex flex-col gap-4 justify-center w-60">
-        <div className="">
-          <h2 className="text-xl font-bold text-wrap">{items.name}</h2>
-        </div>
+      <div className="flex flex-col gap-2 justify-center w-60">
+        <h2 className="text font-semibold">{items.name}</h2>
 
         <div>
-          <span className="text-lg pe-2">AED. {items.price}</span>
-          <span className="line-through text-sm">2,728</span>
+          <span className="font-semibold pe-1">AED. {items.price}</span>
+          <span className="line-through text-sm">{items.price + 10}</span>
         </div>
-
         <div className="flex gap-2">
           <Button
             variant="outline"
@@ -46,8 +44,7 @@ const CartCard = ({ items }) => {
             onClick={() => {
               if (quantity > 1) {
                 setQuantity(quantity - 1);
-              }
-              else if (quantity === 1) {
+              } else if (quantity === 1) {
                 handleRemove();
               }
             }}
@@ -66,22 +63,19 @@ const CartCard = ({ items }) => {
           </Button>
         </div>
       </div>
-
-      {/* close button */}
-
-      <Button variant="outline" size="icon" onClick={handleRemove}>
-        <X size={18} />
-      </Button>
     </div>
   );
 };
 
 const Summary = ({ items }) => {
+  const navigate = useNavigate();
+  const handleOrder = () => {
+    navigate("/order");
+  };
   return (
-    <div className="w-[450px]">
+    <div className="w-[90vw] sm:w-[400px] min-w-[350px]">
       <div
-        className="p-6 border rounded-xl
-      shadow-xl
+        className="p-6 border rounded-xl shadow-xl
       "
       >
         <h2 className="text-lg font-bold border-b pb-2">ORDER SUMMARY</h2>
@@ -89,7 +83,7 @@ const Summary = ({ items }) => {
         {items.map((item, index) => {
           return (
             <div key={index} className="flex justify-between py-2">
-              <span>{item.name}</span>
+              <span className="max-w-[70%]">{item.name}</span>
               <span>AED. {item.price}</span>
             </div>
           );
@@ -107,7 +101,9 @@ const Summary = ({ items }) => {
           </span>
         </div>
 
-        <Button className="w-full mt-4">PROCEED TO CHECKOUT</Button>
+        <Button className="w-full mt-4" onClick={handleOrder}>
+          PROCEED TO CHECKOUT
+        </Button>
       </div>
     </div>
   );
@@ -126,8 +122,8 @@ function Cart() {
     <>
       <Navbar />
 
-      <main className="flex justify-between mx-24 mt-12 gap-8">
-        <div className=" flex flex-col gap-4">
+      <main className="flex gap-2 flex-wrap flex-col sm:flex-row justify-between items-center mx-2 sm:mx-10 md:mx-20">
+        <div className="my-4 flex flex-col gap-4">
           {cartItems.map((item, index) => (
             <CartCard key={index} items={item} />
           ))}

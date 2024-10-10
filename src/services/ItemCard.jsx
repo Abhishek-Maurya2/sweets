@@ -17,30 +17,33 @@ const ItemCard = ({ items }) => {
   };
 
   return (
-    <Card className="flex flex-col justify-between p-2 w-44 md:w-64 lg:w-80">
-      <div>
-        <div className="rounded-lg overflow-hidden h-36 md:h-40 lg:h-64">
+    <Card>
+      <div className="flex flex-row gap-4 p-2">
+        <div className="h-32 w-32 rounded overflow-hidden">
           <img
             src={items.image}
-            alt="placeholder"
-            className="object-cover w-full h-full hover:scale-110 transition-transform duration-500"
+            alt="image"
+            className="object-cover w-full h-full"
             loading="lazy"
           />
+          <div className="relative bottom-10 w-full flex items-center justify-center">
+            <Button
+              className={`${cart ? "border-red-500 text-red-500" : ""}`}
+              variant={cart ? "outline" : ""}
+              onClick={cart ? handleRemoveFromCart : handleAddToCart}
+            >
+              {cart ? "Remove" : "Add"}
+            </Button>
+          </div>
         </div>
-        <div className="py-2 px-1">
-          <p className="text-lg">{items.name}</p>
+        <div className="flex flex-col justify-between w-[50vw] sm:w-[350px] lg:w-[380px]">
+          <p className="font-semibold">{items.name}</p>
+          <div className="flex flex-row gap-4">
+            <p className="font-semibold">AED. {items.price}</p>
+            <img src="src/assets/veg.png" alt="veg" width="24px" />
+          </div>
+          {/* <p className="text-sm">{items.description}</p> */}
         </div>
-      </div>
-      <div className="flex flex-col lg:flex-row justify-between p-1 gap-1">
-        <p className="mt-2">AED. {items.price}</p>
-
-        <Button
-          className={cart && "border-red-500 text-red-500"}
-          variant={cart ? "outline" : ""}
-          onClick={cart ? handleRemoveFromCart : handleAddToCart}
-        >
-          {cart ? "Remove from Cart" : "Add to Cart"}
-        </Button>
       </div>
     </Card>
   );

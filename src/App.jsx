@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Auth from "./pages/Auth";
 import Cart from "./pages/Cart.jsx";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   const { theme } = useThemeStore();
@@ -18,6 +19,7 @@ function App() {
           <Route path="/home" element={<Homepage />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={<OrderPage />} />
         </Routes>
       </Router>
     </>

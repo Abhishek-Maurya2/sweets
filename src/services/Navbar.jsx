@@ -6,8 +6,6 @@ import useUser from "../store/useUser";
 import { ArrowLeft, LucideShoppingBag, Search } from "lucide-react";
 import { items } from "@/utils/items";
 
-
-
 function Navbar() {
   const navigate = useNavigate();
 
@@ -59,6 +57,17 @@ function Navbar() {
             />
             <button className="p-2" onClick={searchItems}>
               <Search size={24} />
+            </button>
+          </div>
+          <div className="m-3">
+            <button
+              className="border border-black px-3 py-1 rounded-md"
+              onClick={(e) => {
+                setText(e.target.innerText);
+                searchItems();
+              }}
+            >
+              Daal
             </button>
           </div>
 
