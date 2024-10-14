@@ -12,11 +12,28 @@ import { Minus, Plus, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const CartCard = ({ items }) => {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(items.quantity);
 
   const removeFromCart = useCart((state) => state.removeFromCart);
+  const increaseItem = useCart((state) => state.increaseItem);
+  const decreaseItem = useCart((state) => state.decreaseItem);
+
   const handleRemove = () => {
     removeFromCart(items);
+  };
+
+  const handleIncrease = () => {
+    increaseItem(items);
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      decreaseItem(items);
+      setQuantity((res) => res - 1);
+    } else if (quantity === 1) {
+      handleRemove();
+    }
   };
 
   return (
@@ -38,27 +55,11 @@ const CartCard = ({ items }) => {
           <span className="line-through text-sm">{items.price + 10}</span>
         </div>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => {
-              if (quantity > 1) {
-                setQuantity(quantity - 1);
-              } else if (quantity === 1) {
-                handleRemove();
-              }
-            }}
-          >
+          <Button variant="outline" size="icon" onClick={handleDecrease}>
             <Minus size={18} />
           </Button>
           <span className="px-3 py-1 border rounded">{quantity}</span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => {
-              setQuantity(quantity + 1);
-            }}
-          >
+          <Button variant="outline" size="icon" onClick={handleIncrease}>
             <Plus size={18} />
           </Button>
         </div>
@@ -84,6 +85,7 @@ const Summary = ({ items }) => {
           return (
             <div key={index} className="flex justify-between py-2">
               <span className="max-w-[70%]">{item.name}</span>
+              <span>x{item.quantity}</span>
               <span>AED. {item.price}</span>
             </div>
           );
@@ -97,7 +99,7 @@ const Summary = ({ items }) => {
         <div className="flex justify-between py-2 border-t">
           <span className="font-bold">TOTAL</span>
           <span className="font-bold">
-            AED. {items.reduce((total, item) => total + item.price, 0)}
+            AED. {items.reduce((total, item) => total + item.price * item.quantity, 0)}
           </span>
         </div>
 
@@ -122,7 +124,7 @@ function Cart() {
     <>
       <Navbar />
 
-      <main className="flex gap-2 flex-wrap flex-col sm:flex-row justify-between items-center mx-2 sm:mx-10 md:mx-20">
+      <main className="flex gap-2 flex-wrap flex-col sm:flex-row justify-between items-start my-2 mx-2 sm:mx-10 md:mx-20">
         <div className="my-4 flex flex-col gap-4">
           {cartItems.map((item, index) => (
             <CartCard key={index} items={item} />

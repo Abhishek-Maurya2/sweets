@@ -1,7 +1,7 @@
 export const items = [
   // thali
   {
-    name: "Unlimited Thali - Kadai Paneer, Minx Veg, Daal Fry, Gulab Jamun, Jeera Rice, Butter Milk, 6 Roti, Salad, Papad",
+    name: "Punjabi Thali - Kadai Paneer, Minx Veg, Daal Fry, Gulab Jamun, Jeera Rice, Butter Milk, 6 Roti, Salad, Papad",
     price: 10.0,
     image:
       "https://www.udaipurblog.com/wp-content/uploads/2018/05/taste-of-city-bawarchi.jpg",
@@ -9,7 +9,7 @@ export const items = [
     id: 1,
   },
   {
-    name: "Punjabi Thali | 2 Sabji, Daal, 5 Roti, Rice, Salad, Dahi",
+    name: "Unlimited Thali | 2 Sabji, Daal, 5 Roti, Rice, Salad, Dahi",
     price: 15.0,
     image:
       "https://www.hotelsai.in/wp-content/uploads/2023/01/Punjabi-Thali.jpg",
@@ -288,7 +288,7 @@ export const items = [
     name: "Pindi Chana + 6 Chapaties Free",
     price: 12.0,
     image:
-     "https://i0.wp.com/upbeetanisha.com/wp-content/uploads/2023/01/DSC_1609.jpg?w=1200&ssl=1",
+      "https://i0.wp.com/upbeetanisha.com/wp-content/uploads/2023/01/DSC_1609.jpg?w=1200&ssl=1",
     category: "Punjabi",
     id: 36,
   },

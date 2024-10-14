@@ -3,14 +3,6 @@ import useCart from "@/store/useCart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { MapPin } from "lucide-react";
 import Navbar from "@/services/Navbar";
 import { useNavigate } from "react-router-dom";
@@ -35,9 +27,25 @@ export default function OrderPage() {
     landmark: "",
     alternatePhone: "",
   });
+
+  
+  const clearCart = useCart((state) => state.clearCart);
   const handleOrder = (e) => {
     e.preventDefault();
-    console.log(formData);
+    const order = {
+      ...formData,
+      items: cartItems,
+      orderId: Math.floor(Math.random() * 1000000),
+      orderDate: new Date(),
+      status: "Pending",
+    };
+
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    const updatedOrders = [...existingOrders, order];
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+    clearCart();
+    navigate("/");
   };
   const handleCancel = (e) => {
     e.preventDefault();

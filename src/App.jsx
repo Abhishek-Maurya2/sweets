@@ -1,16 +1,33 @@
 import { useEffect } from "react";
 import useThemeStore from "./store/useThemeStore";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Auth from "./pages/Auth";
 import Cart from "./pages/Cart.jsx";
 import OrderPage from "./pages/OrderPage";
+import Dashboard from "./pages/Admin/Dashboard";
+import useUser from "./store/useUser";
+
+const ProtectedRoute = ({ element }) => {
+  const user = useUser((state) => state.user);
+  const mail = user?.email;
+  if (mail === "admin@tarc.com") {
+    return element;
+  }
+  return <Navigate to="/auth" />;
+};
 
 function App() {
   const { theme } = useThemeStore();
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
+
   return (
     <>
       <Router>
@@ -20,6 +37,10 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<OrderPage />} />
+          <Route
+            path="/admin"
+            element={<ProtectedRoute element={<Dashboard />} />}
+          />
         </Routes>
       </Router>
     </>

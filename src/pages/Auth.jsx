@@ -38,7 +38,9 @@ function Auth() {
     console.log(loginDeatils);
 
     login(loginDeatils);
-    navigate("/");
+    if (loginDeatils.email === "admin@tarc.com") {
+      navigate("/admin").then(()=>console.log("admin"));
+    } else navigate("/");
   };
 
   const handleSignup = (e) => {

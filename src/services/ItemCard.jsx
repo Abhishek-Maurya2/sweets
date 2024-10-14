@@ -9,7 +9,7 @@ const ItemCard = ({ items }) => {
   const [cart, setCart] = useState(false);
   const handleAddToCart = () => {
     setCart(!cart);
-    addToCart(items);
+    addToCart({ ...items, quantity: 1 });
   };
   const handleRemoveFromCart = () => {
     setCart(!cart);
