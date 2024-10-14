@@ -40,7 +40,11 @@ const ItemCard = ({ items }) => {
           <p className="font-semibold">{items.name}</p>
           <div className="flex flex-row gap-4">
             <p className="font-semibold">AED. {items.price}</p>
-            <img src="src/assets/veg.png" alt="veg" width="24px" />
+            <img
+              src="https://www.clipartmax.com/png/full/299-2998556_vegetarian-food-symbol-icon-non-veg-symbol-png.png"
+              alt="veg"
+              width="24px"
+            />
           </div>
           {/* <p className="text-sm">{items.description}</p> */}
         </div>
