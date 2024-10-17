@@ -10,6 +10,7 @@ import Navbar from "@/services/Navbar";
 import useCart from "@/store/useCart";
 import { Minus, Plus, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/ui/card";
 
 const CartCard = ({ items }) => {
   const [quantity, setQuantity] = useState(items.quantity);
@@ -37,7 +38,7 @@ const CartCard = ({ items }) => {
   };
 
   return (
-    <div className="flex gap-2 border rounded-xl p-2 shadow-lg w-[90vw] sm:w-[450px]">
+    <Card className="flex gap-2 border rounded-xl p-2 shadow-lg w-[90vw] sm:w-[450px]">
       {/* image */}
       <div className="flex-shrink-0 w-28 h-28 overflow-hidden rounded-lg">
         <img
@@ -64,7 +65,7 @@ const CartCard = ({ items }) => {
           </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
@@ -74,7 +75,7 @@ const Summary = ({ items }) => {
     navigate("/order");
   };
   return (
-    <div className="w-[90vw] sm:w-[400px] min-w-[350px]">
+    <Card className="w-[90vw] sm:w-[400px] min-w-[350px]">
       <div
         className="p-6 border rounded-xl shadow-xl
       "
@@ -107,7 +108,7 @@ const Summary = ({ items }) => {
           PROCEED TO CHECKOUT
         </Button>
       </div>
-    </div>
+    </Card>
   );
 };
 

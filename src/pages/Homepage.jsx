@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { items } from "@/utils/items";
 import Navbar from "@/services/Navbar";
 import ItemCard from "@/services/ItemCard";
 import {
+  ArrowRight,
   Cloud,
   CreditCard,
   Github,
   Keyboard,
   LifeBuoy,
   LogOut,
+  LucideShoppingBag,
   Mail,
   Menu,
   MessageSquare,
@@ -21,7 +22,6 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,10 +36,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useCart from "@/store/useCart";
 
 function Homepage() {
-  const navigate = useNavigate();
-
   const [active, setActive] = useState("All");
   const [res, setRes] = useState([]);
   const handleCategory = (e) => {
@@ -64,6 +63,8 @@ function Homepage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  var total = useCart((state) => state.totalAmount(state.cart));
+  var isEmpty = useCart((state) => state.isEmpty(state.cart));
   return (
     <>
       <div className="rounded-full bg-red-500 h-12 w-12 fixed bottom-5 right-5 flex items-center justify-center">
@@ -113,10 +114,20 @@ function Homepage() {
           <button
             onClick={handleCategory}
             className={`${
-              active === "All" ? "bg-red-400" : "bg-gray-400"
-            } rounded h-20 w-20`}
+              active === "All"
+                ? "bg-red-400 border-2 border-red-500"
+                : "bg-gray-400"
+            } rounded h-20 w-20 flex items-end justify-center overflow-hidden`}
+            style={{
+              backgroundImage: `url(${
+                items.filter((item) => item.category === "Paneer")[4].image
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              boxShadow: "inset 0 -28px 20px 2px rgba(0, 0, 0, 0.5)",
+            }}
           >
-            <p>All</p>
+            <p className="text-white font-bold w-full">All</p>
           </button>
 
           {items
@@ -127,10 +138,20 @@ function Homepage() {
                 onClick={handleCategory}
                 key={index}
                 className={`${
-                  active === category ? "bg-red-400" : "bg-gray-400"
-                } rounded h-20 w-20`}
+                  active === category
+                    ? "bg-red-400 border-2 border-red-500"
+                    : "bg-gray-400"
+                } rounded h-20 w-20 overflow-hidden flex items-end justify-center`}
+                style={{
+                  backgroundImage: `url(${
+                    items.filter((item) => item.category === category)[0].image
+                  })`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  boxShadow: "inset 0 -22px 20px 2px rgba(0, 0, 0, 0.5)",
+                }}
               >
-                <p>{category}</p>
+                <p className="text-white font-bold w-full">{category}</p>
               </button>
             ))}
         </div>
@@ -141,12 +162,30 @@ function Homepage() {
         {!size && (
           <div className="flex flex-col items-start">
             <p className="text-2xl font-semibold">Menu</p>
+            <button onClick={handleCategory}>
+              <p
+                // className="text-xl my-2"
+                className={`text-xl font-semibold my-2 cursor-pointer ${
+                  active === "All" ? "text-red-400" : ""
+                }
+                  `}
+              >
+                All
+              </p>
+            </button>
             {items
               .map((item) => item.category)
               .filter((value, index, self) => self.indexOf(value) === index)
               .map((category, index) => (
                 <button onClick={handleCategory} key={index}>
-                  <p className="text-xl my-2">{category}</p>
+                  <p
+                    className={`text-xl font-semibold my-2 cursor-pointer ${
+                      active === category ? "text-red-400" : ""
+                    }
+                  `}
+                  >
+                    {category}
+                  </p>
                 </button>
               ))}
           </div>
@@ -157,6 +196,21 @@ function Homepage() {
             : items.map((item, index) => <ItemCard key={index} items={item} />)}
         </div>
       </div>
+
+      {/* bottom cart label */}
+
+      {!isEmpty && (
+        <div className="dark:border-t-2 bg-black text-white fixed bottom-0 w-full h-14 flex items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <LucideShoppingBag />
+            <p>Checkout</p>
+          </div>
+          <button className="flex gap-2">
+            <p>AED. {total}</p>
+            <ArrowRight />
+          </button>
+        </div>
+      )}
     </>
   );
 }

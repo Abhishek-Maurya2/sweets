@@ -13,11 +13,6 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import {
   addItems,
@@ -25,6 +20,7 @@ import {
   removeItems,
   updateItems,
 } from "@/services/firebaseConfig";
+import { toast } from "sonner";
 
 const OrderCards = ({ order }) => {
   const [viewOrder, setViewOrder] = React.useState(false);
@@ -157,13 +153,24 @@ function Dashboard() {
       image: "",
     });
     const handleSetItem = async () => {
+      if (
+        data.name === "" ||
+        data.description === "" ||
+        data.price === 0 ||
+        data.image === ""
+      ) {
+        toast.error("Please fill all the fields");
+        return;
+      }
       try {
         console.log(data);
         await addItems(data).then(() => {
           setAddItem(!addItem);
         });
+        toast.success("Item Added Successfully");
       } catch (error) {
         console.error("Error adding item:", error);
+        toast.error("Error adding item");
       }
     };
 
@@ -256,9 +263,15 @@ function Dashboard() {
 
     //remove item
     const handleRemoveItem = async (id) => {
-      await removeItems(id).then(() => {
-        setRemoveItem(!removeItem);
-      });
+      try {
+        await removeItems(id).then(() => {
+          setRemoveItem(!removeItem);
+        });
+        toast.success("Item Removed Successfully");
+      } catch (error) {
+        console.error("Error removing item:", error);
+        toast.error("Error removing item");
+      }
     };
     return (
       <div className="fixed top-0 bottom-0 left-0 right-0 bg-[#13131399] dark:bg-[#ffffff3d] flex items-center justify-center">
@@ -340,10 +353,24 @@ function Dashboard() {
       image: "",
     });
     const handleUpdateItems = async (item) => {
-      if(data.name === "" || data.description === "" || data.price === 0 || data.image === "") return;
-      await updateItems(item.id, data).then(() => {
-        setUpdateItem(!updateItem);
-      });
+      if (
+        data.name === "" ||
+        data.description === "" ||
+        data.price === 0 ||
+        data.image === ""
+      ) {
+        toast.error("Please fill all the fields");
+        return;
+      }
+      try {
+        await updateItems(item.id, data).then(() => {
+          setUpdateItem(!updateItem);
+        });
+        toast.success("Item Updated Successfully");
+      } catch (error) {
+        console.error("Error updating item:", error);
+        toast.error("Error updating item");
+      }
     };
     return (
       <div className="fixed top-0 bottom-0 left-0 right-0 bg-[#13131399] dark:bg-[#ffffff3d] flex items-center justify-center">
@@ -396,6 +423,7 @@ function Dashboard() {
                     <div className="grid grid-cols-3 items-center gap-4">
                       <Label htmlFor="price">Price</Label>
                       <Input
+                        type="number"
                         id="price"
                         defaultValue={item.price}
                         className="col-span-2 h-8"

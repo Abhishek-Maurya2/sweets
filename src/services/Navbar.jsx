@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../store/useUser";
 import { ArrowLeft, LucideShoppingBag, Search } from "lucide-react";
 import { items } from "@/utils/items";
+import useCart from "@/store/useCart";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -40,6 +41,9 @@ function Navbar() {
   useEffect(() => {
     searchItems();
   }, [text]); // Trigger searchItems whenever text changes
+
+  // cart
+  const cartIsEmpty = useCart((state) => state.isEmpty(state.cart));
   return (
     <>
       {searchModal ? (
@@ -94,12 +98,13 @@ function Navbar() {
             onClick={() => navigate("/")}
             className="text-3xl cursor-pointer p-0"
           >
-            TARC
+            ROLLA
           </p>
           <div className="flex gap-4 items-center">
             <Button variant="outline" size="icon" onClick={handleSearch}>
               <Search size={24} />
             </Button>
+
             <Button
               variant="outline"
               size="icon"
@@ -107,6 +112,9 @@ function Navbar() {
             >
               <LucideShoppingBag size={24} />
             </Button>
+            {!cartIsEmpty && (
+              <div className="fixed top-2 right-40 rounded-full h-3 w-3 bg-red-500"></div>
+            )}
             <ThemeToggleButton />
             {isLogged ? (
               <Button

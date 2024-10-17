@@ -46,6 +46,12 @@ const useCart = create((set) => ({
       return { cart: [] };
     });
   },
+  totalAmount: (cart) => {
+    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  },
+  isEmpty: (cart) => {
+    return cart.length === 0;
+  },
 }));
 
 export default useCart;

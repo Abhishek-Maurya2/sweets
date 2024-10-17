@@ -52,11 +52,16 @@ const updateItems = async (id, data) => {
 
 const getAllItems = async () => {
   const items = [];
-  const querySnapshot = await getDocs(collection(db, "items"));
-  querySnapshot.forEach((doc) => {
-    items.push({ ...doc.data(), id: doc.id });
-  });
-  return items;
+  try {
+    const querySnapshot = await getDocs(collection(db, "items"));
+    querySnapshot.forEach((doc) => {
+      items.push({ ...doc.data(), id: doc.id });
+    });
+    console.log("Items: ", items);
+    return items;
+  } catch (e) {
+    console.error("Error getting documents: ", e);
+  }
 };
 
 export { auth, db, addItems, removeItems, updateItems, getAllItems };
