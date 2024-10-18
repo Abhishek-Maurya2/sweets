@@ -328,7 +328,7 @@ export const items = [
     name: "Malai Kofta + 6 Chapaties Free",
     price: 13.0,
     image:
-      "https://thetableofspice.com/wp-content/uploads/2022/09/Malai-Kofta.jpg",
+      "https://www.vegrecipesofindia.com/wp-content/uploads/2021/04/malai-kofta-1.jpg",
     category: "Punjabi",
     id: 41,
   },
