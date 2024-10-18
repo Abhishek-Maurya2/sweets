@@ -21,9 +21,19 @@ import {
   updateItems,
 } from "@/services/firebaseConfig";
 import { toast } from "sonner";
+import { getOrder, deleteOrder } from "@/services/firebaseConfig";
 
 const OrderCards = ({ order }) => {
   const [viewOrder, setViewOrder] = React.useState(false);
+  const handleDeleteOrder = async (id) => {
+    try {
+      await deleteOrder(id);
+      toast.success("Order Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      toast.error("Error deleting order");
+    }
+  }
   return (
     <>
       {viewOrder && (
@@ -69,7 +79,10 @@ const OrderCards = ({ order }) => {
                   <p>Name : {order.name}</p>
                   <p className="text-amber-600">Order Status: {order.status}</p>
                   <p>
-                    Order Date: {new Date(order.orderDate).toLocaleDateString()}
+                    Order Date:{" "}
+                    {new Date(
+                      order.orderDate.seconds * 1000
+                    ).toLocaleDateString()}
                   </p>
                   <p>
                     Order Time: {new Date(order.orderDate).toLocaleTimeString()}
@@ -93,7 +106,9 @@ const OrderCards = ({ order }) => {
             </div>
             {/* btns */}
             <div className="text-end mx-4 my-2">
-              <Button variant="destructive" className="mx-6">
+              <Button onClick={
+                () => handleDeleteOrder(order.id)
+              } variant="destructive" className="mx-6">
                 Reject Order
               </Button>
               <Button className="bg-green-500 hover:bg-green-400">
@@ -109,8 +124,12 @@ const OrderCards = ({ order }) => {
             <p className="font-semibold">ID: {order.orderId}</p>
             <p>Order Status: {order.status}</p>
             <p>
-              Order Date: {new Date(order.orderDate).toLocaleDateString()}{" "}
-              {new Date(order.orderDate).toLocaleTimeString()}
+              Order Date:
+              {new Date(order.orderDate.seconds * 1000).toLocaleDateString()}
+            </p>
+            <p>
+              OrderTime:
+              {new Date(order.orderDate.seconds * 1000).toLocaleTimeString()}
             </p>
             <p className="font-semibold">
               AED.{" "}
@@ -135,12 +154,13 @@ const OrderCards = ({ order }) => {
 function Dashboard() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const storedOrder = localStorage.getItem("orders");
-    if (storedOrder) {
-      setOrders(JSON.parse(storedOrder));
-    }
-    console.log(storedOrder);
+    const fetchOrders = async () => {
+      const orders = await getOrder();
+      setOrders(orders);
+    };
+    fetchOrders();
   }, []);
+
   const [addItem, setAddItem] = useState(false);
   const [removeItem, setRemoveItem] = useState(false);
   const [updateItem, setUpdateItem] = useState(false);
@@ -462,6 +482,7 @@ function Dashboard() {
       {removeItem && <RemoveItem />}
       {updateItem && <UpdateItem />}
       <Navbar />
+      {/* admin options */}
       <div className="flex flex-row gap-4 items-center justify-center m-4">
         <Button variant={"outline"} onClick={() => setAddItem(!addItem)}>
           Add Item
@@ -473,6 +494,8 @@ function Dashboard() {
           Update Item
         </Button>
       </div>
+
+      {/* orders */}
       <div className="m-1">
         <p>Orders</p>
         <div className="flex flex-row flex-wrap gap-4 m-2">

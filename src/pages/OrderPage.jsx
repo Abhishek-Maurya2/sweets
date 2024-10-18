@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { MapPin } from "lucide-react";
 import Navbar from "@/services/Navbar";
 import { useNavigate } from "react-router-dom";
+import { placeOrder } from "@/services/firebaseConfig";
 
 const WaitComponenet = () => {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ const WaitComponenet = () => {
 
 export default function OrderPage() {
   const navigate = useNavigate();
+  const [waiting, setWaiting] = useState(false);
+
+  
+  // get cart items
   const [cartItems, setCartItems] = useState([]);
   const getCart = useCart((state) => state.cart);
   useEffect(() => {
@@ -34,6 +39,7 @@ export default function OrderPage() {
     setCartItems(items);
   }, [getCart]);
 
+  // get formdata
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -45,9 +51,7 @@ export default function OrderPage() {
     landmark: "",
     alternatePhone: "",
   });
-
   const clearCart = useCart((state) => state.clearCart);
-  const [waiting, setWaiting] = useState(false);
   const handleOrder = (e) => {
     e.preventDefault();
     const order = {
@@ -58,13 +62,13 @@ export default function OrderPage() {
       status: "Pending",
     };
 
-    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    const updatedOrders = [...existingOrders, order];
-    localStorage.setItem("orders", JSON.stringify(updatedOrders));
-
-    clearCart();
-    // navigate("/");
     setWaiting(true);
+    placeOrder(order).then((id) => {
+      if (id) {
+        clearCart();
+      }
+    });
+    
   };
   const handleCancel = (e) => {
     e.preventDefault();

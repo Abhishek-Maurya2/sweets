@@ -64,4 +64,51 @@ const getAllItems = async () => {
   }
 };
 
-export { auth, db, addItems, removeItems, updateItems, getAllItems };
+const placeOrder = async (data) => {
+  try {
+    const docRef = await addDoc(collection(db, "orders"), data);
+    console.log("Document written with ID: ", docRef.id);
+    return docRef.id;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return null;
+  }
+};
+
+const getOrder = async () => {
+  const orders = [];
+  try {
+    const querySnapshot = await getDocs(collection(db, "orders"));
+    querySnapshot.forEach((doc) => {
+      orders.push({ ...doc.data(), id: doc.id });
+    });
+    console.log("Orders: ", orders);
+    return orders;
+  } catch (e) {
+    console.error("Error getting documents: ", e);
+    return null;
+  }
+};
+
+const deleteOrder = async (id) => {
+  try {
+    await deleteDoc(doc(db, "orders", id));
+    console.log("Document successfully deleted!");
+    return true;
+  } catch (e) {
+    console.error("Error removing document: ", e);
+    return false;
+  }
+};
+
+export {
+  auth,
+  db,
+  addItems,
+  removeItems,
+  updateItems,
+  getAllItems,
+  placeOrder,
+  getOrder,
+  deleteOrder,
+};

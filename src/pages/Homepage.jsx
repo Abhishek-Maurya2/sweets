@@ -37,8 +37,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useCart from "@/store/useCart";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
+  const navigate = useNavigate();
   const [active, setActive] = useState("All");
   const [res, setRes] = useState([]);
   const handleCategory = (e) => {
@@ -205,7 +207,7 @@ function Homepage() {
             <LucideShoppingBag />
             <p>Checkout</p>
           </div>
-          <button className="flex gap-2">
+          <button className="flex gap-2" onClick={() => navigate("/cart")}>
             <p>AED. {total}</p>
             <ArrowRight />
           </button>
