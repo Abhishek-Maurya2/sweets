@@ -114,7 +114,9 @@ const OrderCards = ({ order }) => {
               >
                 Reject Order
               </Button>
-              <Button className="bg-green-500 hover:bg-green-400">
+              <Button
+              onClick = {()=>handleDeleteOrder(order.id)}
+              className="bg-green-500 hover:bg-green-400">
                 Accept Order
               </Button>
             </div>
