@@ -7,6 +7,24 @@ import { MapPin } from "lucide-react";
 import Navbar from "@/services/Navbar";
 import { useNavigate } from "react-router-dom";
 
+const WaitComponenet = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
+  }, []);
+  return (
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white text-black p-4 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold text-blue-600 mb-4">Order Placed</h2>
+        <p>Your order has been placed successfully.</p>
+        <p>Thank you for shopping with us.</p>
+      </div>
+    </div>
+  );
+};
+
 export default function OrderPage() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -28,8 +46,8 @@ export default function OrderPage() {
     alternatePhone: "",
   });
 
-  
   const clearCart = useCart((state) => state.clearCart);
+  const [waiting, setWaiting] = useState(false);
   const handleOrder = (e) => {
     e.preventDefault();
     const order = {
@@ -45,7 +63,8 @@ export default function OrderPage() {
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
     clearCart();
-    navigate("/");
+    // navigate("/");
+    setWaiting(true);
   };
   const handleCancel = (e) => {
     e.preventDefault();
@@ -65,6 +84,7 @@ export default function OrderPage() {
   return (
     <>
       <Navbar />
+      {waiting && <WaitComponenet />}
       <div className="w-full max-w-3xl mx-auto p-4 ] rounded-lg shadow">
         <h2 className="text-xl font-bold text-blue-600 mb-4">
           ADD A NEW ADDRESS
