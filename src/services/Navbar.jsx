@@ -93,7 +93,7 @@ function Navbar() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-between px-8 py-2 backdrop-blur-lg border-b-2 border-gray-200 dark:border-white">
+        <div className="flex items-center justify-between px-4 sm:px-8 py-2 backdrop-blur-lg border-b-2 border-gray-200 dark:border-white">
           <p
             onClick={() => navigate("/")}
             className="text-3xl cursor-pointer p-0"
