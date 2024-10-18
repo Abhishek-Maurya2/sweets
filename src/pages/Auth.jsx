@@ -35,11 +35,9 @@ function Auth() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(loginDeatils);
-
     login(loginDeatils);
     if (loginDeatils.email === "admin@tarc.com") {
-      navigate("/admin").then(()=>console.log("admin"));
+      navigate("/admin");
     } else navigate("/");
   };
 

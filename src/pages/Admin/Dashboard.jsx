@@ -28,12 +28,13 @@ const OrderCards = ({ order }) => {
   const handleDeleteOrder = async (id) => {
     try {
       await deleteOrder(id);
+      setViewOrder(!viewOrder);
       toast.success("Order Deleted Successfully");
     } catch (error) {
       console.error("Error deleting order:", error);
       toast.error("Error deleting order");
     }
-  }
+  };
   return (
     <>
       {viewOrder && (
@@ -106,9 +107,11 @@ const OrderCards = ({ order }) => {
             </div>
             {/* btns */}
             <div className="text-end mx-4 my-2">
-              <Button onClick={
-                () => handleDeleteOrder(order.id)
-              } variant="destructive" className="mx-6">
+              <Button
+                onClick={() => handleDeleteOrder(order.id)}
+                variant="destructive"
+                className="mx-6"
+              >
                 Reject Order
               </Button>
               <Button className="bg-green-500 hover:bg-green-400">
@@ -154,11 +157,8 @@ const OrderCards = ({ order }) => {
 function Dashboard() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const fetchOrders = async () => {
-      const orders = await getOrder();
-      setOrders(orders);
-    };
-    fetchOrders();
+    const unsubscribe = getOrder(setOrders);
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   const [addItem, setAddItem] = useState(false);

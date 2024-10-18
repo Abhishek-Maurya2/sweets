@@ -8,6 +8,7 @@ import {
   getDocs,
   updateDoc,
   collection,
+  onSnapshot,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -75,15 +76,20 @@ const placeOrder = async (data) => {
   }
 };
 
-const getOrder = async () => {
-  const orders = [];
+const getOrder = (callback) => {
   try {
-    const querySnapshot = await getDocs(collection(db, "orders"));
-    querySnapshot.forEach((doc) => {
-      orders.push({ ...doc.data(), id: doc.id });
+    const ordersCollection = collection(db, "orders");
+    const unsubscribe = onSnapshot(ordersCollection, (snapshot) => {
+      const orders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      // console.log("Orders: ", orders);
+      callback(orders);
     });
-    console.log("Orders: ", orders);
-    return orders;
+
+    // Return the unsubscribe function to allow cleanup
+    return unsubscribe;
   } catch (e) {
     console.error("Error getting documents: ", e);
     return null;
