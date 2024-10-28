@@ -30,7 +30,6 @@ export default function OrderPage() {
   const navigate = useNavigate();
   const [waiting, setWaiting] = useState(false);
 
-  
   // get cart items
   const [cartItems, setCartItems] = useState([]);
   const getCart = useCart((state) => state.cart);
@@ -68,7 +67,6 @@ export default function OrderPage() {
         clearCart();
       }
     });
-    
   };
   const handleCancel = (e) => {
     e.preventDefault();
@@ -90,12 +88,8 @@ export default function OrderPage() {
       <Navbar />
       {waiting && <WaitComponenet />}
       <div className="w-full max-w-3xl mx-auto p-4 ] rounded-lg shadow">
-        <h2 className="text-xl font-bold text-blue-600 mb-4">
-          ADD A NEW ADDRESS
-        </h2>
-        <Button className="mb-4 bg-blue-500 hover:bg-blue-600 text-white">
-          <MapPin className="mr-2 h-4 w-4" /> Use my current location
-        </Button>
+        <h2 className="text-xl font-bold text-blue-600 mb-4">ADD ADDRESS</h2>
+
         <form className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">

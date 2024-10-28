@@ -31,7 +31,7 @@ const OrderCards = ({ order }) => {
       setViewOrder(!viewOrder);
       toast.success("Order Deleted Successfully");
     } catch (error) {
-      console.error("Error deleting order:", error);
+      // console.error("Error deleting order:", error);
       toast.error("Error deleting order");
     }
   };
@@ -63,7 +63,7 @@ const OrderCards = ({ order }) => {
                   </TableHeader>
                   <TableBody>
                     {order.items.map((item, idx) => (
-                      <TableRow>
+                      <TableRow key={idx}>
                         <TableCell>{idx + 1}</TableCell>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
@@ -185,13 +185,13 @@ function Dashboard() {
         return;
       }
       try {
-        console.log(data);
+        // console.log(data);
         await addItems(data).then(() => {
           setAddItem(!addItem);
         });
         toast.success("Item Added Successfully");
       } catch (error) {
-        console.error("Error adding item:", error);
+        // console.error("Error adding item:", error);
         toast.error("Error adding item");
       }
     };
@@ -291,7 +291,7 @@ function Dashboard() {
         });
         toast.success("Item Removed Successfully");
       } catch (error) {
-        console.error("Error removing item:", error);
+        // console.error("Error removing item:", error);
         toast.error("Error removing item");
       }
     };
@@ -317,8 +317,8 @@ function Dashboard() {
             />
           </div>
           <div>
-            {res.map((item) => (
-              <Card className="dark:bg-[#7f7f7f45] dark:border-[#525252] bg-[#e0e0e01c]">
+            {res.map((item, index) => (
+              <Card key={index} className="dark:bg-[#7f7f7f45] dark:border-[#525252] bg-[#e0e0e01c]">
                 <div className="flex flex-row">
                   <div className="flex flex-col p-2">
                     <p className="font-semibold">{item.name}</p>
@@ -390,7 +390,7 @@ function Dashboard() {
         });
         toast.success("Item Updated Successfully");
       } catch (error) {
-        console.error("Error updating item:", error);
+        // console.error("Error updating item:", error);
         toast.error("Error updating item");
       }
     };
@@ -416,8 +416,8 @@ function Dashboard() {
           </div>
           {/* res */}
           <div className="flex flex-col gap-2">
-            {res.map((item) => (
-              <Card>
+            {res.map((item, index) => (
+              <Card key={index}>
                 <div className="flex flex-col gap-2 p-2">
                   <div className="grid gap-2">
                     <div className="grid grid-cols-3 items-center gap-4">
@@ -501,8 +501,8 @@ function Dashboard() {
       <div className="m-1">
         <p>Orders</p>
         <div className="flex flex-row flex-wrap gap-4 m-2">
-          {orders.map((order) => (
-            <OrderCards order={order} />
+          {orders.map((order, index) => (
+            <OrderCards key={index} order={order} />
           ))}
         </div>
       </div>
