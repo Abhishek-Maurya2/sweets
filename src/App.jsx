@@ -12,6 +12,7 @@ import Cart from "./pages/Cart.jsx";
 import OrderPage from "./pages/OrderPage";
 import Dashboard from "./pages/Admin/Dashboard";
 import useUser from "./store/useUser";
+import useItems from "./store/useItems";
 
 const ProtectedRoute = ({ element }) => {
   const user = useUser((state) => state.user);
@@ -27,6 +28,10 @@ function App() {
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
+
+  useEffect(() => {
+    useItems.getState().fetchItems();
+  }, []);
 
   return (
     <>
